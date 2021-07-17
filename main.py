@@ -7,6 +7,9 @@ pygame.init()
 # Create the screen (width, height)
 screen = pygame.display.set_mode((800,600)) 
 
+# Space background
+background = pygame.image.load('background.jpg')
+
 # Title and icon
 pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load('launch.png')
@@ -39,6 +42,7 @@ running = True
 while running:
 # RGB = red, green, blue  mixing of colours, 255 is max
     screen.fill((255, 255, 255))
+    screen.blit(background, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If typed the 'red cross button'
             running = False
