@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize pygame
 pygame.init()
@@ -18,9 +19,20 @@ playerY = 480
 playerX_change = 0
 playerY_change = 0
 
+# Enemy
+enemyImg = pygame.image.load("monster.png")
+enemyX = random.randint(0,800)
+enemyY = random.randint(25, 100)
+# Keep the movement of enemy
+enemyX_change = 0.3
+enemyY_change = 30
+
 # Placing the spaceship in screen
 def player(x, y):
     screen.blit(playerImg, (x, y))
+
+def enemy(x, y):
+    screen.blit(enemyImg, (x, y))
 
 # Game loop
 running = True
@@ -47,6 +59,7 @@ while running:
                 playerX_change = 0
                 playerY_change = 0
 
+# Set the boundaries of spaceship
     playerX += playerX_change
     if playerX <= 0:
         playerX = 0
@@ -58,7 +71,17 @@ while running:
         playerY = 0
     if playerY >= 536:
         playerY = 536
-    player(playerX, playerY)            
+    player(playerX, playerY)
+
+# Movement of enemy
+    enemyX += enemyX_change
+    if enemyX <= 0:
+        enemyY += enemyY_change
+        enemyX_change= 0.3
+    if enemyX >= 736:
+        enemyY += enemyY_change
+        enemyX_change = -0.3
+    enemy(enemyX, enemyY)         
 
     # Update the screen
     pygame.display.update() 
