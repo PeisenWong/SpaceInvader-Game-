@@ -48,7 +48,16 @@ while running:
                 playerY_change = 0
 
     playerX += playerX_change
+    if playerX <= 0:
+        playerX = 0
+        # Consider the 64 pixel spaceship
+    if playerX >= 736:
+        playerX = 736
     playerY += playerY_change
+    if playerY <= 0:
+        playerY = 0
+    if playerY >= 536:
+        playerY = 536
     player(playerX, playerY)            
 
     # Update the screen
