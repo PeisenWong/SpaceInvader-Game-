@@ -30,12 +30,26 @@ enemyY = random.randint(25, 100)
 enemyX_change = 0.3
 enemyY_change = 30
 
+# bullet
+bulletImg = pygame.image.load('bullet.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 0.75
+bullet_state = "ready"
+
+
 # Placing the spaceship in screen
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
 def enemy(x, y):
     screen.blit(enemyImg, (x, y))
+
+def fire_bullet(x, y):
+    global bullet_state
+    bullet_state = "fire"
+    screen.blit(bulletImg, (x + 16, y + 10))
 
 # Game loop
 running = True
@@ -57,6 +71,12 @@ while running:
                 playerY_change = -0.5
             if event.key == pygame.K_DOWN:
                 playerY_change = 0.5
+            if event.key == pygame.K_SPACE:
+                if bullet_state == "ready":
+                    # Get the current x cordinate of the spaceship
+                    bulletX = playerX
+                    bulletY = playerY
+                    fire_bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or pygame.K_RIGHT or pygame.K_UP or pygame.K_DOWN:
@@ -67,7 +87,7 @@ while running:
     playerX += playerX_change
     if playerX <= 0:
         playerX = 0
-        # Consider the 64 pixel spaceship
+    # Consider the 64 pixel spaceship
     if playerX >= 736:
         playerX = 736
     playerY += playerY_change
@@ -77,7 +97,7 @@ while running:
         playerY = 536
     player(playerX, playerY)
 
-# Movement of enemy
+    # Movement of enemy
     enemyX += enemyX_change
     if enemyX <= 0:
         enemyY += enemyY_change
@@ -85,7 +105,16 @@ while running:
     if enemyX >= 736:
         enemyY += enemyY_change
         enemyX_change = -0.3
-    enemy(enemyX, enemyY)         
+    enemy(enemyX, enemyY)     
+
+    # Movement of bullet
+    if bulletY <= 0:
+        bullet_state = "ready"
+
+    if bullet_state == "fire":
+        fire_bullet(bulletX, bulletY)
+        bulletY -= bulletY_change
+  
 
     # Update the screen
     pygame.display.update() 
